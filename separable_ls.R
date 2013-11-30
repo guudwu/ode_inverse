@@ -13,10 +13,13 @@ separable_ls <- function (
   , dfo.parameter = list (
       npt = 4*length(eigen_complex) + 2*length(eigen_real) + 1
       , rhobeg = 1e-2
-      , rhoend = 1e-5
+      , rhoend = 1e-10
       , maxfun = 1e8
     )
-  , lm.parameter = minpack.lm::nls.lm.control()
+  , lm.parameter = minpack.lm::nls.lm.control (
+      maxiter = 1024
+      , maxfev = 1e8
+    )
   , verbose = 0
 )
 
