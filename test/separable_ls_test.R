@@ -13,7 +13,7 @@ repeat
     dimension
     , time_point
     , row_column_permutation = FALSE
-    , intercept = c(0,1e-2)
+#    , intercept = c(0,1e-2)
   )
   source('linear_ode_generation/check.linear_ode.R')
   ode_property <- check.linear_ode(linear_ode)
@@ -45,8 +45,9 @@ initial <- numeric(dimension)
 source('separable_ls.R')
 res <- separable_ls (
   observation_noise
-  , upper_bound_complex = 1+1i
-  , lower_bound_complex = -1-1i
+#  , upper_bound_complex = 1+1i
+#  , lower_bound_complex = -1-1i
+  , intercept = !is.null(linear_ode$intercept)
 #  , method = 'dfo'
   , lm.parameter = nls.lm.control(maxiter=1024,maxfev=1e8)
   , verbose = 1

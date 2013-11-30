@@ -19,7 +19,7 @@ rss <- .objective (
   , num_complex_eigen = floor(dimension/2)
   , num_real_eigen = dimension%%2
   , observation = linear_ode$observation
-  , intercept = !all(linear_ode$intercept==0)
+  , intercept = !is.null(linear_ode$intercept)
   , type = 'dfo'
 )
 
@@ -41,7 +41,7 @@ rss_noise <- .objective (
   , num_complex_eigen = floor(dimension/2)
   , num_real_eigen = dimension%%2
   , observation = observation_noise
-  , intercept = !all(linear_ode$intercept==0)
+  , intercept = !is.null(linear_ode$intercept)
   , type = 'dfo'
 )
 

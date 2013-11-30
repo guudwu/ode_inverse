@@ -121,10 +121,6 @@ if ( type == 'post' )
   {
     intercept_est <- numeric(dimension)
   }
-  else
-  {
-    intercept_est <- NULL
-  }
 
   q_optim <- sapply ( 1:dimension , function(index)
   {
@@ -163,17 +159,20 @@ if ( type == 'post' )
   coefficient_est <- coefficient_est %*% q_optim
   coefficient_est <- t(coefficient_est)
 
+  ret <- list (
+    curve_est = curve_est
+    , coefficient_est = coefficient_est
+  )
+
+
   if ( intercept )
   {
     intercept_est <- - coefficient_est %*% intercept_est
     intercept_est <- as.numeric(intercept_est)
+    ret$intercept_est <- intercept_est
   }
 
-  return ( list (
-    curve_est = curve_est
-    , coefficient_est = coefficient_est
-    , intercept_est = intercept_est
-  ) )
+  return(ret)
 }
 #}}}
 

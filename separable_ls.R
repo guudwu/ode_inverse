@@ -309,12 +309,18 @@ if ( !is.null(par_optim) )
 
 # Return#{{{
 
-return ( list (
+ret <- list (
   rss = rss_optim
   , curve_est = res_post$curve_est
   , coefficient_est = res_post$coefficient_est
-  , intercept_est = res_post$intercept_est
-) )
+)
+
+if (!is.null(res_post$intercept_est))
+{
+  ret$intercept_est <- intercept_est
+}
+
+return(ret)
 #}}}
 
 }
