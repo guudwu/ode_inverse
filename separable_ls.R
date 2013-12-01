@@ -317,7 +317,7 @@ ret <- list (
 
 if (!is.null(res_post$intercept_est))
 {
-  ret$intercept_est <- intercept_est
+  ret$intercept_est <- res_post$intercept_est
 }
 
 return(ret)
