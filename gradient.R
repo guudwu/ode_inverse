@@ -79,13 +79,10 @@ lapply ( 1:length(time_point) , function(index)
 
 # Coefficient gradient#{{{
 
-  lapply ( 0:(dimension**2-1) , function(index2)
+  lapply ( 1:(dimension**2) , function(index2)
   {
-    num_row <- floor(index2/dimension) + 1
-    num_col <- index%%dimension + 1
-
     direction <- matrix ( 0 , dimension , dimension )
-    direction[num_row,num_col] <- 1
+    direction[index2] <- 1
 
     frechet <-
       expm::expmFrechet (
@@ -105,7 +102,7 @@ lapply ( 1:length(time_point) , function(index)
 
     if ( intercept )
     {
-      gradient_coefficient[[index2+1]][,index] <<- (
+      gradient_coefficient[[index2]][,index] <<- (
         exp_at %*% partial_ainv_b
         + frechet %*% ( linear_ode$initial + ainv_b )
         - partial_ainv_b
@@ -113,7 +110,7 @@ lapply ( 1:length(time_point) , function(index)
     }
     else
     {
-      gradient_coefficient[[index2+1]][,index] <<-
+      gradient_coefficient[[index2]][,index] <<-
         frechet %*% linear_ode$initial
     }
 
@@ -164,5 +161,6 @@ if ( type=='gradient' )
   return(ret)
 }
 #}}}
+
 
 }

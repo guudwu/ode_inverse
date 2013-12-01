@@ -1,6 +1,6 @@
 set.seed(0)
-dimension <- 5
-time_point <- 0:100
+dimension <- 4
+time_point <- 0:10
 intercept <- c(0,1e-2)
 
 source('linear_ode_generation/linear_ode_generation.R')
@@ -9,6 +9,7 @@ linear_ode <-
   linear_ode_generation (
     dimension
     , time_point
+    , orthogonal_transformation = list(c(1,dimension))
     , row_column_permutation = FALSE
     , intercept = intercept
   )
@@ -30,15 +31,12 @@ gradient <-
 
 require('deSolve')
 
-step_length <- 1e-5
+step_length <- 1e-3
 
-rel_coefficiet <- lapply ( 0:(dimension**2-1) , function(index)
+rel_coefficiet <- lapply ( 1:(dimension**2) , function(index)
 {
-  num_row <- floor(index/dimension) + 1
-  num_col <- index%%dimension + 1
-
   perturb <- matrix ( 0 , dimension , dimension )
-  perturb[num_row,num_col] <- 1
+  perturb[index] <- 1
 
   perturb_res <-
     ode (
@@ -54,10 +52,10 @@ rel_coefficiet <- lapply ( 0:(dimension**2-1) , function(index)
   ret <-
     sum (
       ( perturb_res - linear_ode$observation[,-1]
-        - step_length * t(gradient$coefficient[[index+1]])
+        - step_length * t(gradient$coefficient[[index]])
       ) **2
     ) / sum (
-      perturb_res ** 2
+      ( perturb_res - linear_ode$observation[,-1] ) ** 2
     )
 
   return(ret)
@@ -84,7 +82,7 @@ rel_initial <- lapply ( 1:dimension , function(index)
         - step_length * t(gradient$initial[[index]])
       ) **2
     ) / sum (
-      perturb_res ** 2
+      ( perturb_res - linear_ode$observation[,-1] ) ** 2
     )
 
   return(ret)
@@ -92,29 +90,33 @@ rel_initial <- lapply ( 1:dimension , function(index)
 
 print(rel_initial)
 
-rel_intercept <- lapply ( 1:dimension , function(index)
+if ( !is.null(linear_ode$intercept) )
 {
-  perturb <- numeric(dimension)
-  perturb[index] <- step_length
+  rel_intercept <- lapply ( 1:dimension , function(index)
+  {
+    perturb <- numeric(dimension)
+    perturb[index] <- step_length
 
-  perturb_res <-
-    ode (
-      linear_ode$initial
-      , linear_ode$observation[,1]
-      , linODE
-      , list ( linear_ode$coefficient , linear_ode$intercept + perturb )
-    ) [,-1]
+    perturb_res <-
+      ode (
+        linear_ode$initial
+        , linear_ode$observation[,1]
+        , linODE
+        , list ( linear_ode$coefficient , linear_ode$intercept + perturb )
+      ) [,-1]
 
-  ret <-
-    sum (
-      ( perturb_res - linear_ode$observation[,-1]
-        - step_length * t(gradient$intercept[[index]])
-      ) **2
-    ) / sum (
-      perturb_res ** 2
-    )
+    ret <-
+      sum (
+        ( perturb_res - linear_ode$observation[,-1]
+          - step_length * t(gradient$intercept[[index]])
+        ) **2
+      ) / sum (
+        ( perturb_res - linear_ode$observation[,-1] ) ** 2
+      )
 
-  return(ret)
-} )
+    return(ret)
+  } )
 
-print(rel_intercept)
+  print(rel_intercept)
+}
+
