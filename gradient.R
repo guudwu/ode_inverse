@@ -12,10 +12,7 @@
 #   coefficient: Estimated coefficient matrix.
 #   initial: Estimated initial condition.
 #   intercept: Estimated intercept term(if existed).
-#   observation: Data to be fit.
-#     Each row is for one time point.
-#     Each column is a curve.
-#     First column is time points.
+#   time_point: time points of numerical solution.
 # type: Determine return value.
 #   Can be following value:
 #   "gradient": partial derivative matrices.
@@ -42,7 +39,7 @@
 # Initialization#{{{
 
 dimension <- nrow(linear_ode$coefficient)
-time_point <- linear_ode$observation[,1]
+time_point <- linear_ode$time_point
 intercept <- !is.null(linear_ode$intercept)
 
 gradient_coefficient <-

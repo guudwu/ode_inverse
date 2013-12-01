@@ -25,6 +25,7 @@ linODE <- function ( time , state , pars )
 source('gradient.R')
 
 linear_ode$initial <- linear_ode$observation[1,-1]
+linear_ode$time_point <- linear_ode$observation[,1]
 
 gradient <-
   .gradient ( linear_ode )
