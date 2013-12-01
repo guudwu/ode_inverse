@@ -39,6 +39,21 @@ gradient_initial <-
       )
     return(ret)
   } )
+
+if ( intercept )
+{
+  gradient_intercept <-
+    lapply ( 1:dimension , function(index)
+    {
+      ret <-
+        matrix (
+          0
+          , dimension
+          , length(time_point)
+        )
+      return(ret)
+    } )
+}
 #}}}
 
 # Gradient#{{{
@@ -116,6 +131,20 @@ lapply ( 1:length(time_point) , function(index)
   } )
 #}}}
 
+# intercept gradient#{{{
+
+  if ( intercept )
+  {
+    temp <-
+      ( exp_at - diag(dimension) ) %*% ainv
+    lapply ( 1:dimension , function(index2)
+    {
+      gradient_intercept[[index2]][,index] <<- temp[,index2]
+      return()
+    } )
+  }
+#}}}
+
   return()
 } )
 #}}}
@@ -124,6 +153,10 @@ lapply ( 1:length(time_point) , function(index)
 
 ret$initial <- gradient_initial
 ret$coefficient <- gradient_coefficient
+if ( intercept )
+{
+  ret$intercept <- gradient_intercept
+}
 
 return(ret)
 #}}}

@@ -91,3 +91,30 @@ rel_initial <- lapply ( 1:dimension , function(index)
 } )
 
 print(rel_initial)
+
+rel_intercept <- lapply ( 1:dimension , function(index)
+{
+  perturb <- numeric(dimension)
+  perturb[index] <- step_length
+
+  perturb_res <-
+    ode (
+      linear_ode$initial
+      , linear_ode$observation[,1]
+      , linODE
+      , list ( linear_ode$coefficient , linear_ode$intercept + perturb )
+    ) [,-1]
+
+  ret <-
+    sum (
+      ( perturb_res - linear_ode$observation[,-1]
+        - step_length * t(gradient$intercept[[index]])
+      ) **2
+    ) / sum (
+      perturb_res ** 2
+    )
+
+  return(ret)
+} )
+
+print(rel_intercept)
