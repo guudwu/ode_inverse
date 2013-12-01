@@ -58,4 +58,5 @@ variance <-
     estimation
     , linear_ode$observation
     , method = 'fim'
+    , latex = 'temp'
   )
