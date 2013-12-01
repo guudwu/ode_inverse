@@ -120,3 +120,8 @@ if ( !is.null(linear_ode$intercept) )
   print(rel_intercept)
 }
 
+fim <-
+  .gradient (
+    linear_ode
+    , type = 'fim'
+  )

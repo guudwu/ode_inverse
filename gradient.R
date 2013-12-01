@@ -162,5 +162,58 @@ if ( type=='gradient' )
 }
 #}}}
 
+# Return for type "fim"#{{{
+
+if ( type=='fim' )
+{
+  fim_dim <- dimension * (dimension+1)
+  if ( intercept )
+  {
+    fim_dim <- fim_dim + dimension
+  }
+
+  ret <- matrix ( 0 , fim_dim , fim_dim )
+
+  lapply ( 1:fim_dim , function(index)
+  {
+    if ( index<=dimension**2 )
+    {
+      temp1 <- gradient_coefficient[[index]]
+    }
+    else if ( index<=dimension*(dimension+1) )
+    {
+      temp1 <- gradient_initial[[index-dimension**2]]
+    }
+    else
+    {
+      temp1 <- gradient_intercept[[index-dimension*(dimension+1)]]
+    }
+    lapply ( 1:index , function(index2)
+    {
+      if ( index2<=dimension**2 )
+      {
+        temp2 <- gradient_coefficient[[index2]]
+      }
+      else if ( index2<=dimension*(dimension+1) )
+      {
+        temp2 <- gradient_initial[[index2-dimension**2]]
+      }
+      else
+      {
+        temp2 <- gradient_intercept[[index2-dimension*(dimension+1)]]
+      }
+      ret[index,index2] <<-
+        sum (
+          temp1 * temp2
+        )
+      ret[index2,index] <<- ret[index,index2]
+      return()
+    } )
+    return()
+  } )
+
+  return(ret)
+}
+#}}}
 
 }
