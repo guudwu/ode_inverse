@@ -4,13 +4,12 @@
 
 .gradient <- function (
   linear_ode
+  , type = 'gradient'
 )
 
 {
 
 # Initialization#{{{
-
-ret <- list()
 
 dimension <- nrow(linear_ode$coefficient)
 time_point <- linear_ode$observation[,1]
@@ -149,16 +148,21 @@ lapply ( 1:length(time_point) , function(index)
 } )
 #}}}
 
-# Return#{{{
+# Return for type "gradient"#{{{
 
-ret$initial <- gradient_initial
-ret$coefficient <- gradient_coefficient
-if ( intercept )
+if ( type=='gradient' )
 {
-  ret$intercept <- gradient_intercept
-}
+  ret <- list()
 
-return(ret)
+  ret$initial <- gradient_initial
+  ret$coefficient <- gradient_coefficient
+  if ( intercept )
+  {
+    ret$intercept <- gradient_intercept
+  }
+
+  return(ret)
+}
 #}}}
 
 }
