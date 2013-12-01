@@ -7,6 +7,36 @@
   , type = 'gradient'
 )
 
+# INPUT:
+# linear_ode: A list containing following parameters:
+#   coefficient: Estimated coefficient matrix.
+#   initial: Estimated initial condition.
+#   intercept: Estimated intercept term(if existed).
+#   observation: Data to be fit.
+#     Each row is for one time point.
+#     Each column is a curve.
+#     First column is time points.
+# type: Determine return value.
+#   Can be following value:
+#   "gradient": partial derivative matrices.
+#   "fim": Fisher Information Matrix.
+
+# OUTPUT for type "gradient":
+# coefficient: Derivative matrix for each entry of the coefficient
+#   matrix.
+#   The order is column-oriented.
+# initial: Derivative matrix for each entry of the initial condition
+#   vector.
+# intercept: Only exists when input "linear_ode" contains an
+#   "intercept" item.
+#   Derivative matrix for each entry of the intercept term.
+
+# OUTPUT for type "fim":
+# Fisher information matrix.
+# The order is: the first "dimension**2" elements is for coefficient
+# matrix entries, and the following "dimension" elements for initial
+# condition vector, and the rest(if existed) for intercept term.
+
 {
 
 # Initialization#{{{
