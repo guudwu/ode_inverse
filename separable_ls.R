@@ -68,9 +68,9 @@ separable_ls <- function (
 # OUTPUT
 # rss: Optimal residual sum-of-squares between curve of reconstructed
 #   ODE system and "observation".
-# curve_est: Curve of reconstructed ODE system.
-# coefficient_est: Coefficient matrix.
-# intercept_est: Intercept term(NULL if not existed).
+# curve: Curve of reconstructed ODE system.
+# coefficient: Coefficient matrix.
+# intercept: Intercept term(NULL if not existed).
 
 {
 
@@ -311,13 +311,13 @@ if ( !is.null(par_optim) )
 
 ret <- list (
   rss = rss_optim
-  , curve_est = res_post$curve_est
-  , coefficient_est = res_post$coefficient_est
+  , curve = res_post$curve
+  , coefficient = res_post$coefficient
 )
 
-if (!is.null(res_post$intercept_est))
+if (!is.null(res_post$intercept))
 {
-  ret$intercept_est <- res_post$intercept_est
+  ret$intercept <- res_post$intercept
 }
 
 return(ret)

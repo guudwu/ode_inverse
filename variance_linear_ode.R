@@ -10,8 +10,8 @@ variance_linear_ode <- function (
 
 {
 
-dimension <- nrow(estimation$coefficient_est)
-intercept <- !is.null(estimation$intercept_est)
+dimension <- nrow(estimation$coefficient)
+intercept <- !is.null(estimation$intercept)
 
 # Method "fim"#{{{
 
@@ -37,9 +37,9 @@ if ( method=='fim' )
   fim <-
     .gradient (
       list (
-        coefficient = estimation$coefficient_est
-        , initial = estimation$curve_est[1,-1]
-        , intercept = estimation$intercept_est
+        coefficient = estimation$coefficient
+        , initial = estimation$curve[1,-1]
+        , intercept = estimation$intercept
         , time_point = observation[,1]
       )
       , type = 'fim'
@@ -90,7 +90,7 @@ if ( !is.null(latex) )
     for ( index_col in 1:dimension )
     {
       cat(
-        sprintf("%.1e",estimation$coefficient_est[index_row,index_col])
+        sprintf("%.1e",estimation$coefficient[index_row,index_col])
       )
       cat('(')
       cat(
@@ -133,7 +133,7 @@ if ( !is.null(latex) )
   for ( index in 1:dimension )
   {
     cat(
-      sprintf("%.1e",estimation$curve_est[1,index+1])
+      sprintf("%.1e",estimation$curve[1,index+1])
     )
     cat('(')
     cat(

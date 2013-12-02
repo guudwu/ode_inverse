@@ -160,8 +160,8 @@ if ( type == 'post' )
   coefficient_est <- t(coefficient_est)
 
   ret <- list (
-    curve_est = curve_est
-    , coefficient_est = coefficient_est
+    curve = curve_est
+    , coefficient = coefficient_est
   )
 
 
@@ -169,7 +169,7 @@ if ( type == 'post' )
   {
     intercept_est <- - coefficient_est %*% intercept_est
     intercept_est <- as.numeric(intercept_est)
-    ret$intercept_est <- intercept_est
+    ret$intercept <- intercept_est
   }
 
   return(ret)
