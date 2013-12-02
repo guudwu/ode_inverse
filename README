@@ -1,0 +1,27 @@
+This directory contains R functions to solve
+a linear ODE inverse problem.
+
+"separable_ls.R":
+Construct a full linear ODE system to fit given observation data
+using separable least-squares algorithm.
+
+"variance_linear_ode.R":
+Compute variances of an estimation.
+
+"lasso_linearize.R":
+Search for a sparse solution by solving a LASSO problem formulated
+by the linearization at a given full estimation.
+
+"gradient.R","objective.R":
+Private.
+
+"test/":
+Testing programs.
+
+"linear_ode_generation/":
+A directory containing R functions for generating data for testing
+programs.
+One may pull down the scripts from:
+  https://github.com/guuuuud/linear_ode_generation
+and put them directly in the directory or simply create a symbolic
+link pointing to the project.
